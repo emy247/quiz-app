@@ -1,0 +1,128 @@
+
+
+.test-section{
+    box-sizing:border-box;
+    background-color:rgba(14, 16, 41, 0.692);
+    height:30rem;
+    width:70%;
+    margin:13rem auto;
+    color:rgb(255, 255, 255);
+    padding:3rem;
+    border:0;
+    border-radius:20px;
+}
+
+.message{
+    font-size:24px;
+}
+
+.button-quiz{
+    background-color:rgba(255, 255, 255, 0.062);
+    border:solid 2px rgb(255, 255, 255);
+    border-radius:20px;
+    padding:0.5rem 1rem; 
+    font-family: 'Commissioner', sans-serif;
+    color:white;
+    font-size:16px;
+    margin-top:2.5rem;
+    margin-left:2.5rem;
+}
+
+.button-quiz:hover{
+    color:rgb(0, 0, 0);
+    background-color:rgba(255, 255, 255, 0.89);
+    cursor:pointer;
+    
+}
+
+.button-quiz:focus{
+    color:rgb(0, 0, 0);
+    background-color:rgba(255, 255, 255, 0.89);
+    cursor:pointer;
+    
+}
+
+.question-number{
+    font-size:22px;
+}
+.question{
+    font-size:24px;
+    margin-top:2rem;
+    border-bottom:2px solid rgb(211, 211, 211);
+    padding-bottom:1rem;
+}
+.answers{
+    display:grid;
+    grid-template-columns: 1fr 1fr; 
+    margin-top:2rem;
+    margin-right:2rem;
+    align-items:center;
+    
+}
+.answer{
+    
+    background-color:rgba(255, 255, 255, 0.062);
+    border:solid 2px rgb(255, 255, 255);
+    border-radius:20px;
+    padding:0.5rem 1rem; 
+    font-family: 'Commissioner', sans-serif;
+    color:white;
+    font-size:16px;
+    margin-top:2rem;
+    margin-left:2.5rem;
+    
+}
+.answer:hover{
+    color:rgb(0, 0, 0);
+    background-color:rgba(255, 255, 255, 0.363);
+    cursor:pointer;
+}
+
+.answer.active{
+    border-color:greenyellow;
+    background-color:rgba(255, 255, 255, 0.363);
+    color:greenyellow;
+}
+
+.next{
+    position:absolute;
+    top:57%;
+    right:19.7%;
+    
+    background-color:rgba(255, 255, 255, 0);
+    border:0;
+    border-radius:20px;
+    padding:0.5rem 1rem; 
+    font-family: 'Commissioner', sans-serif;
+    border:solid 2px white;
+    font-size:16px;
+    margin-top:2rem;
+    margin-left:2.5rem;
+    color:rgb(255, 255, 255);
+}
+
+.next:hover{
+    background-color:rgb(255, 255, 255);
+    color:black;
+}
+
+.back{
+    position:absolute;
+    top:57%;
+    right:30%;
+    background-color:rgba(255, 255, 255, 0);
+    border:0;
+    border-radius:20px;
+    padding:0.5rem 1rem; 
+    font-family: 'Commissioner', sans-serif;
+    border:solid 2px white;
+    font-size:16px;
+    margin-top:2rem;
+    margin-left:2.5rem;
+    color:rgb(255, 255, 255);
+}
+
+.back:hover{
+    background-color:rgb(255, 255, 255);
+    color:black;
+}

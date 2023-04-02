@@ -1,11 +1,17 @@
-import './App.css';
-import Home from './components/home';
 
-function App() {
-  return (
-    <div className="App">
-       <Home />
-    </div>
+import Test from './components/test';
+import SelectQuiz from './components/selectQuiz';
+
+
+function App({ start,selectedQuiz}) {
+
+  
+ 
+  return (<>
+
+        <SelectQuiz />
+        
+        </>
   );
 }
 
