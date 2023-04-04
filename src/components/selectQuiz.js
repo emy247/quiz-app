@@ -11,17 +11,45 @@ import css_image from '../media/css_image.png';
 import js_image from '../media/js_image.png';
 import model from '../media/model.png';
 
+
 const Home = () => {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [start, setStart] = useState(false);
   const [select,setSelect]=useState();
+  const [activeButton, setActiveButton] = useState(null);
+
+  function handleClick(buttonId) {
+    setActiveButton(buttonId);
+  }
+
+  const buttonsHtml = [
+    { id: '1', label: 'Beginner', quiz:html},
+    { id: '2', label: 'Intermediate', quiz:html},
+    { id: '3', label: 'Advanced' , quiz:html},
+  ];
+
+  const buttonsCss = [
+    { id: '4', label: 'Beginner' , quiz:css},
+    { id: '5', label: 'Intermediate' , quiz:css},
+    { id: '6', label: 'Advanced' , quiz:css},
+  ];
+
+  const buttonsJs = [
+    { id: '7', label: 'Beginner' , quiz:javascript},
+    { id: '8', label: 'Intermediate' , quiz:javascript},
+    { id: '9', label: 'Advanced', quiz:javascript },
+  ];
+
+  
 
   const SelectQuiz = () => {
     return (
       <div className="select-section">
 
-        <div className="left-content">
-
+       
+       
+        <div className="left-content"> 
+      
                 <div className="title">Quizify</div>
                 <span className="description1">Easy online quiz maker: beautiful quizzes in minutes.
                 </span>
@@ -43,25 +71,42 @@ const Home = () => {
         (<div className="select-quiz-section">
           <div className="card html">
             <img src={html_image}></img>
-           
-  
-            <div class="circle"><div class="checkmark"></div></div><button className="select-button" onClick={() => setSelectedQuiz(html)}>Beginner</button>
-            <span class="circle"><div class="checkmark"></div></span><button  className="select-button" onClick={() => setSelectedQuiz(html)}>Intermediate</button>
-            <span class="circle"><div class="checkmark"></div></span><button  className="select-button" onClick={() => setSelectedQuiz(html)}>Advanced</button>
+
+            {buttonsHtml.map(button => (
+              <button
+                key={button.id}
+                className={`select-button ${button.id === activeButton ? 'active' : ''}`}
+                onClick={() => (handleClick(button.id), setSelectedQuiz(button.quiz))}
+              >
+                {button.label}
+        </button>
+      ))}
           </div>
 
           <div className="card css">
             <img src={css_image}></img>
-            <button className="select-button" onClick={() => setSelectedQuiz(css)}>Beginner</button>
-            <button className="select-button" onClick={() => setSelectedQuiz(css)}>Intermediate</button>
-            <button className="select-button" onClick={() => setSelectedQuiz(css)}>Advanced</button>
+            {buttonsCss.map(button => (
+              <button
+                key={button.id}
+                className={`select-button ${button.id === activeButton ? 'active' : ''}`}
+                onClick={() => (handleClick(button.id), setSelectedQuiz(button.quiz))}
+              >
+                {button.label}
+        </button>
+      ))}
           </div>
 
           <div className="card javascript">
             <img src={js_image}></img>
-            <button className="select-button" onClick={() => setSelectedQuiz(javascript)}>Beginner</button>
-            <button className="select-button" onClick={() => setSelectedQuiz(javascript)}>Intermediate</button>
-            <button className="select-button" onClick={() => setSelectedQuiz(javascript)}>Advanced</button>
+            {buttonsJs.map(button => (
+              <button
+                key={button.id}
+                className={`select-button ${button.id === activeButton ? 'active' : ''}`}
+                onClick={() => (handleClick(button.id), setSelectedQuiz(button.quiz))}
+              >
+                {button.label}
+        </button>
+      ))}
           </div>
         </div>)
         :

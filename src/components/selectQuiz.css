@@ -1,8 +1,9 @@
 body {
     background-image: url('../media/background.jpg');
-    background-size: 100 auto;
-    
+    background-size: cover;
     font-family: 'Commissioner', sans-serif;
+    background-position: center;
+    background-clip: padding-box;
 }
 
 .selectQuiz{
@@ -19,8 +20,7 @@ body {
     width:70rem;
     height:43rem;
     padding:5rem;
-    
-    
+      
  }
  
  .left-content{
@@ -95,50 +95,48 @@ body {
     box-sizing:border-box;
     display:flex;
     flex-direction:column;
-    height:17rem;
+    height:18rem;
     width:10rem;
-    background-color:rgba(221, 221, 221, 0.178);
+    background-color:rgba(221, 221, 221, 0.233);
     border-radius:10px;
     align-items:center;
     padding:3rem;
     margin-bottom:4rem;
-}
-.card:hover{
-    background-color:rgba(221, 221, 221, 0.432);
+    
 }
 
-.card:active{
-    background-color:rgba(221, 221, 221, 0.432);
-}
 .card img{
     width:5rem;
     height:auto;
-    
+    margin-bottom:1.5rem;
     
 }
 
 .select-button{
-    border:0;
+    
     background-color:rgba(255, 255, 255, 0);
-    
-    margin-left:0;
-    width:6rem;
-    margin-top:1rem;
-    color:white;
-    font-family:'Courier New', Courier, monospace;
-    font-size:16px;
-    
-    
+    border:0;
+    width:8rem;
+    border-radius:20px;
+    padding:0.3rem 1rem; 
+    font-family: 'Commissioner', sans-serif;
+    border:solid 2px white;
+    font-size:14px;  
+    color:rgb(255, 255, 255);
+    margin-bottom:0.7rem;
+       
 }
 
 .select-button:hover {
-    border-left:solid 3px greenyellow;
+    border:solid 2px yellow;
     cursor:pointer;
+    color:yellow;
 }
 
-.select-button:focus{
-    border-left:solid 3px greenyellow;
+.select-button.active{
+    border:solid 2px yellow;
     cursor:pointer;
+    color:yellow;
 }
 
 .start-quiz{
@@ -153,6 +151,7 @@ body {
     font-size:1rem;
     font-family: 'Commissioner', sans-serif;   
     margin-left:13.5rem;
+    
     
 }
 .start-quiz:hover{

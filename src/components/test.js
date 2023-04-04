@@ -4,6 +4,8 @@ import html from './html';
 import css from './css';
 import javascript from './javascript';
 import './test.css';
+import final_message from '../media/final_message.png';
+import begin_model from '../media/begin_model.png';
 
 
 const Test = ({selectedQuiz}) => {
@@ -16,6 +18,8 @@ const Test = ({selectedQuiz}) => {
   const [userAnswer,setUserAnswer]=useState([]);
   const [answers,setAnswers]=useState(Array(4).fill(null));
   const [picked, setPicked]=useState();
+  const [correctAnswers,setCorrectAnswers]=useState(false);
+
   let checkList=0;
   let score=0;
 
@@ -28,13 +32,15 @@ const Test = ({selectedQuiz}) => {
     return result;
   }
 
-
+  
   useEffect(() => {                        // pentru a evita randarea a mai multor liste de numere random, se va opri dupa prima randare
     const random = getShuffledNumbers(4);  
     setRandomQuestion(random);
   }, []);
 
-  
+  function handleRefresh() {
+    window.location.reload(); // Refresh the page when the button is clicked
+  }
 
   const handleNewAnswers=(answer)=>{
     setUserAnswer(answer);
@@ -65,10 +71,12 @@ const Test = ({selectedQuiz}) => {
       <div className="message">Testing knowledge: A quiz can help test a person's knowledge of HTML, 
       including its syntax, tags, and attributes.
        It can help determine areas where one needs improvement and areas where one is proficient.</div>
-      <button className="button-quiz" onClick={()=>( Test_pick(selectedQuiz,randomQuestion[number]),
+      <div className="quiz-description">For the upcoming test, you will be presented with ten general questions, each with only one correct answer. Good luck!</div>
+      <button className="button-quiz begin" onClick={()=>( Test_pick(selectedQuiz,randomQuestion[number]),
       setNumber(number+1),
       setPicked(selectedQuiz))}>Begin quiz</button>
-      <button className="button-quiz">Home</button>
+      <img className="begin-model" src={begin_model}></img>
+      
       </>)
    
   }
@@ -103,7 +111,7 @@ const Test = ({selectedQuiz}) => {
   };
   
   
-
+  
   const Next=()=>{
     if(number<4)
     return(<button className="next" onClick={handleNext}>Next question</button>);
@@ -127,13 +135,44 @@ const Test = ({selectedQuiz}) => {
           <div className={`answer ${userAnswer===answer || answers.includes(answer)? 'active' : ''}`} key={index} onClick={()=>handleNewAnswers(answer)}>
           {answer}
           </div>
-           
-
-           ))
-            
+           ))       
        }
        </div>
     </div>)) 
+  
+  const HandleCorrect=()=>{
+     setCorrectAnswers(true);
+     setQuestion(stack[number-1]);  
+     setNumber(number-1); 
+     setFinish(false);
+  }
+
+  const HandleCheckList=(userAnswer,answer,answers,itemCorrect)=>{
+
+    
+    if((userAnswer===answer || answers.includes(answer))&&userAnswer!==itemCorrect)
+      return 'active-red';
+    if((userAnswer===answer || answers.includes(answer))&&userAnswer===itemCorrect)
+      return 'active';
+    if(answer===itemCorrect)
+      return 'active';
+    }
+  
+
+  const listCorrect=question.map((item)=>(  
+      <div className="question-section" key={item.id}>
+
+          <div className="question">{item.question}</div>
+          <div className="answers">
+            {item.answers.map((answer,index)=>(
+            <div className={`answer ${HandleCheckList(userAnswer,answer,answers,item.correct)}`} key={index} onClick={()=>handleNewAnswers(answer)}>
+            {answer}
+            </div>
+            ))       
+        }
+        </div>
+      </div>)) 
+
 
 
 
@@ -151,22 +190,53 @@ const Test = ({selectedQuiz}) => {
  
   
   const FinalMessage=()=>{
-    return(<div className="final-message-score">Congratulations, your final score is {score}/{number-1}! Try again or HOME</div>)
-  }
+    return(
+    <div className="final">
+      <div className="final-message-score">Congratulations, your final score is {score}/{number-1}!
+        <span className="message">
+        Great job on staying committed to your interview preparation! It's important to remember that preparation is key to performing well 
+        during an interview. The more you practice and refine your skills and knowledge, 
+        the more confident you will feel when it's time for the actual interview.</span>
+        {finish===true?<CorrectAnswers/>:''}
+        <span className="social">
+        <i className="fa fa-share-alt"></i>
+        Share your results
+            <a href="#" className="fa fa-facebook"></a>
+            <a href="#" className="fa fa-instagram"></a>
+            <a href="#" className="fa fa-twitter"></a>
+            
+        </span> 
+      </div>
+      <img className="final-image" src={final_message}></img>
+    </div>)
 
+  }
   
+  
+  const CorrectAnswers=()=>{
+    return(<button className="see-correct" onClick={HandleCorrect}>See correct answers</button>)
+  }
+  console.log(correctAnswers);
   console.log('answers',answers);
  
   
 
   return (  
     <div className="test-section"> 
-       {finish===false&&number!==0?<div className="question-number">Question number #{number}</div>:'' }
+      <div className="header">
+       {finish===false&&number!==0?<div className="question-number">Question <span className="number">{number}</span>/10</div>:'' }
+       <button className={`button-quiz home ${number!==0?'in-quiz':''}`} onClick={handleRefresh}>Home</button></div>
        {number===0?<Start_selected_quiz/>:''}
-       {finish===false?listQuestion:''}        
-       {finish===false&&number!==0?<Next/>:''}
-       {finish===false?<Back/>:''}
-       {finish===true?<FinalMessage/>:''}         
+       {finish===false&&correctAnswers===false?listQuestion:''} 
+
+       <div className="next-back">
+          {finish===false&&number!==0?<Next/>:''}   
+          {finish===false?<Back/>:''}
+       </div>
+
+       {finish===true?<FinalMessage/>:''}    
+       
+       {finish===false&&correctAnswers===true?listCorrect:''}      
        
        
     </div>
