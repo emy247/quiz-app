@@ -1,9 +1,6 @@
-
-import Test from './components/test';
 import SelectQuiz from './components/selectQuiz';
 
-
-function App({ start,selectedQuiz}) {
+function App() {
 
   
  
