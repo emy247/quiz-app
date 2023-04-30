@@ -1,56 +1,31 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './test.css';
 import final_message from '../media/final_message.png';
 import begin_model from '../media/begin_model.png';
 import './selectQuiz.css';
 
 
-const Test = ({selectedQuiz, randomQuestion, quiz}) => {
+const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
 
   const [number, setNumber]=useState(0);
   const [finish,setFinish]=useState(false);
-  const [question,setQuestion]=useState([]);
+  const [question,setQuestion]=useState([shuffledQuestions[0]]);
   
-  const [stack, setStack]=useState([]);
   const [userAnswer,setUserAnswer]=useState([]);
   const [answers,setAnswers]=useState(Array(selectedQuiz.length).fill(null)); //initializeaza o lista cu null-uri de lungimea numarului de intrebari din test 
-                                                                              //in care se vor stoca raspunsurile userului
-  
-  const [picked, setPicked]=useState();
+                                                                     //in care se vor stoca raspunsurile userului
+
   const [correctAnswers,setCorrectAnswers]=useState(false); //doar cand e true, userul va putea vizualiza raspunsurile corecte si pe cele gresite
-                                                         //state-ul se schimba la finalul testului 
+  const [begin, setBegin]=useState(false);  
+                                                       //state-ul se schimba la finalul testului 
   let correctList=[];
   let score=0;
   
-  
-
-  function handleRefresh() {
-    window.location.reload(); // Refresh page
-  }
-
-  const handleNewAnswers=(answer)=>{
-    setUserAnswer(answer);
-    const newAnswers = [...answers];
-    newAnswers[number-1] = answer;
-    setAnswers(newAnswers);}
-  
-
-  const Test_pick=(questions,question_number)=>{        //questions = testul ales; questions_number = care intrebare e aleasa din test
-  
-      const shuffledQuestions = questions.map(q => {     
-        const shuffledAnswers = [...q.answers].sort(() => Math.random() - 0.5); // amesteca raspunsurile
-        return {...q, answers:shuffledAnswers};                                 // pune impreuna intrebarea respectiva cu raspunsurile amestecate 
-                                                                                //valabil pentru oricare intrebare din test
-      });   
-                                                                              
-      setFinish(false);
-      setQuestion([questions[question_number]]);           //alege o intrebare random din cele amestecate 
-      setStack([...stack,question]);  
-                                 //question_number il luam mai tarziu din lista cu numere random generate mai sus      
-  }
+  useEffect(() => {
     
-  
+    setQuestion([shuffledQuestions[number]])
+   }, [number, shuffledQuestions]);
 
   const Start_selected_quiz=()=>{
     return(<>
@@ -63,85 +38,80 @@ const Test = ({selectedQuiz, randomQuestion, quiz}) => {
       </div>
       <div className='quiz-description'>Good luck and enjoy the quiz!</div>
       
-      <button className="button-quiz begin" onClick={()=>( Test_pick(selectedQuiz,randomQuestion[number]),
-      setNumber(number+1),
-      setPicked(selectedQuiz))}>Begin quiz</button>
+      <button className="button-quiz begin" onClick={()=>(setBegin(true))}>Begin quiz</button>
       <img className="begin-model" alt="" src={begin_model}></img>
       
       </>)
-   
   }
-  console.log(quiz)
+
+  function handleRefresh() {
+    window.location.reload(); // Refresh page
+  }
+
+  const handleNewAnswers=(answer)=>{
+    setUserAnswer(answer);
+    const newAnswers = [...answers];
+    newAnswers[number] = answer;
+    setAnswers(newAnswers);}
 
 
   const handleNext=()=>{
-    
-    setNumber(number+1) ; 
-    
-    if(number<selectedQuiz.length)
+ 
+    if(number<shuffledQuestions.length-1)
     {
-      Test_pick(selectedQuiz,randomQuestion[number]);  //aceeasi logica ca atunci cand pornim testul si numarul random generat, dar acum de pe indexul urmator al listei cu numere random
-      
-      if(correctAnswers===false)                    //(tinem evidenta indexului cu ajutorul state-ului numberului initial la inceput)    
-      setStack([...stack,question]);
+      setNumber(number+1) ; 
     }
-      
-
-    if(number>=selectedQuiz.length)
+    if(number===shuffledQuestions.length-1)
     {
-      setStack([...stack,question]);
       setFinish(true);     
-    }
-   
-    
-                        
+    }      
+
   }
-  
-  const handleBack=()=>{   
-     // acelasi lucru ca la next, doar ca revenim la indexul anterior al listei cu numere random
-     setNumber(number-1);  
-     setQuestion(stack[number-1]);    
-     
-     
+
+
+  const handleBack=()=>{  
+
+    setNumber(number-1);    
+      // acelasi lucru ca la next, doar ca revenim la indexul anterior al listei cu intrebari random
+    
   };
   
   
   
   const Next=()=>{
-    if(number<selectedQuiz.length)
+    if(number<selectedQuiz.length-1)
     return(<button className="next" onClick={handleNext}>Next question</button>);
-    if(number===selectedQuiz.length)
+    if(number===selectedQuiz.length-1)
     return(<button className="next" onClick={handleNext}>Submit</button>);
   }
   
   const Back=()=>{
-    if(number>1)
+    if(number>0)
     return(<button className="next" onClick={handleBack}>Previous question</button>)
   }
   
   
 
   //randare intrebari si raspunsuri in timpul testarii
+  
   const listQuestion=question.map((item)=>(  //afisare intrebari+raspunsuri, verificare daca in lista shuffled raspunsul pe care se da click e egal cu itemul corect
    
    <div className="question-section" key={item.id}>
         <div className="question">{item.question}</div>
         <div className="answers">
           {item.answers.map((answer,index)=>(
-          <div className={`answer ${userAnswer===answer && answers[number-1]===answer ?'active':''}`} key={index} onClick={()=>handleNewAnswers(answer)}>
+          <div className={`answer ${userAnswer===answer || answers[number]===answer  ?'active':''}`} key={index} onClick={()=>handleNewAnswers(answer)}>
           {answer}     
           </div>
            ))       
        }
        </div>
     </div>)) 
-    
-   
+  
 
   const HandleCorrect=()=>{
      setCorrectAnswers(true);
-     setNumber(number-1); 
-     setQuestion(stack[number-1]);  
+     
      setFinish(false);
   }
 
@@ -151,13 +121,14 @@ const Test = ({selectedQuiz, randomQuestion, quiz}) => {
                                     //===>face toate raspunsurile corecte verzi
     return 'active';
 
-    if(answers.includes(answer) && answers.indexOf(answer)===number-1)    //daca answers (=array-ul cu toate raspunsurile alese de user) contine answer(raspunsul randat in acel moment)===>rosu indiferent daca este corect sau nu
+    if(answers.includes(answer) && answers.indexOf(answer)===number)    //daca answers (=array-ul cu toate raspunsurile alese de user) contine answer(raspunsul randat in acel moment)===>rosu indiferent daca este corect sau nu
                                     //daca ar fi fost corect ar fi ramas verde          
     return 'active-red';
     
     }
   
   //randare intrebari si raspunsurile corecte+alese
+
   const listCorrect=question.map((item)=>(  
     
       <div className="question-section" key={item.id}>
@@ -177,7 +148,7 @@ const Test = ({selectedQuiz, randomQuestion, quiz}) => {
   const FinalMessage=()=>{
     return(
     <div className="final">
-      <div className="final-message-score">Congratulations, your final score is {score}/{number-1}!
+      <div className="final-message-score">Congratulations, your final score is {score}/{shuffledQuestions.length}!
         <span className="message">
         Great job on staying committed to your interview preparation! It's important to remember that preparation is key to performing well 
         during an interview. The more you practice and refine your skills and knowledge, 
@@ -201,46 +172,51 @@ const Test = ({selectedQuiz, randomQuestion, quiz}) => {
     return(<button className="see-correct" onClick={HandleCorrect}>See correct answers</button>)
   }
 
-  if(picked!==undefined)    
-  {for(let i=0;i<selectedQuiz.length;i++)     // cand testul e ales (correct!=undefined), putem face o noua lista cu raspunsurile corecte 
+     
+  for(let i=0;i<shuffledQuestions.length;i++)     // cand testul e ales (correct!=undefined), putem face o noua lista cu raspunsurile corecte 
     {
-    correctList.push(selectedQuiz[randomQuestion[i]].correct); // In ordinea in care au picat intrebarile, folosindu-ne de array-ul cu cele 10 numere random si iterand prin aceasta
+    correctList.push(shuffledQuestions[i].correct); // In ordinea in care au picat intrebarile, folosindu-ne de array-ul cu cele 10 numere random si iterand prin aceasta
                                                               //extragem .correct, raspunsul corect aferent intrebarii cu numarul picat la randomQuestion
     }
-  }
+  
   if(finish)
   {
-    for(let i=0;i<selectedQuiz.length;i++)
+    for(let i=0;i<shuffledQuestions.length;i++)
     {
       if(correctList[i]===answers[i])       // comparam lista cu raspunsurile corecte cu cea cu raspunsurile alese
       score+=1;
     }
   }
   
-   console.log('corecte',correctList)
-   console.log('answers list:', answers);
-   console.log('scor:',score)
+  console.log('Lista corecte',correctList)
+      console.log('user answers', answers)
+      console.log('number',number);
    
-  
 
   return (  
     <div className="test-section"> 
       <div className="header">
-       {finish===false&&number!==0?<div className="question-number">Question <span className="number">{number}</span>/10</div>:'' }
+       {!finish&&begin?<div className="question-number">Question <span className="number">{number+1}</span>/{shuffledQuestions.length}</div>:'' }
+
        <button className={`button-quiz home ${number!==0?'in-quiz':''}`} onClick={handleRefresh}>Home</button></div>
-       {number===0?<Start_selected_quiz/>:''}
-       
+       { !begin &&number===0 ? <Start_selected_quiz/>:''}
        
        <div className="next-back">
-          {finish===false&&number!==0?<Next/>:''}   
-          {finish===false?<Back/>:''}
+          { !finish &&begin?<Next/>:''}   
+          { !finish &&begin?<Back/>:''}
        </div>
 
-       {finish===false&&correctAnswers===false?listQuestion:''} 
-       {finish===true?<FinalMessage/>:''}  
+       { !finish&& !correctAnswers &&begin ? listQuestion:''} 
+       
+       { finish ? <FinalMessage/>:''}  
          
        
-       {finish===false&&correctAnswers===true?listCorrect:''}      
+       { !finish &&correctAnswers ? listCorrect:''}  
+
+       
+
+       
+           
        
     </div>
   )

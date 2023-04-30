@@ -4,38 +4,55 @@ import Test from './test';
 const QuizData = ({quiz}) => {
 
     const [selectedQuiz, setSelectedQuiz] = useState([]);
-    const [randomQuestion, setRandomQuestion] = useState([]);
+  
+    const [shuffledQuestions, setShuffledQuestions] = useState([]);
+    
 
     
-  useEffect(()=>{
-    fetch(`http://localhost:5000/${quiz}`)
-    .then(response=>response.json())
-    .then(data=>setSelectedQuiz(data))
-  }, [])
-   
-/////////////////////////////////////////////
-  function getShuffledNumbers(count) {
-    const result = Array.from(Array(count).keys()); // create an array of sequential numbers from 0 to count-1
-    for (let i = result.length - 1; i > 0; i--) { // amesteca array-ul cu algoritmul fisher yates
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
-  }
-  useEffect(() => {                        // pentru a evita randarea a mai multor liste de numere random, se va opri dupa prima randare
-   const random = getShuffledNumbers(selectedQuiz.length);  
-   setRandomQuestion(random);
-  }, [selectedQuiz.length]); //prima data avem selectedQuiz.length=0 pentru ca nu se incarca inca intrebarile, deci reapelam aici
+    useEffect(()=>{
+    async function fetchData() {
+      const response = await fetch(`http://localhost:5000/${quiz}`);
+      const data = await response.json(); 
+      setSelectedQuiz(data);
+    };
+    fetchData(); },[quiz])
+    
+    
 
-// ===>Toata partea asta va genera un array de numere random care nu se repeta, de lungimea numarului de intrebari din baza de date,
-//     acest array va fi trimis mai departe in test.js pentru a se incepe randarea pe rand a intrebarilor incepand de la randomQuestion[number] (number=0 initial, fiind prima intrebare)
-/////////////////////////////////////////////
-   
+    useEffect(() => {
 
-  return (
+        if (selectedQuiz.length > 0) {
+            const shuffled = [...selectedQuiz];
+            let currentIndex = shuffled.length - 1;
+            while (currentIndex > 0) {
+                const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+                [shuffled[currentIndex], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[currentIndex]];
+                currentIndex--;
+            }
+            
+            function shuffleArray(array) {
+              for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+              }
+              return array;
+            }
+            
+            const shuffledQuestion = shuffled.map(q => ({
+              ...q,
+              answers: shuffleArray(q.answers)
+            }));
 
-    randomQuestion?<Test selectedQuiz={selectedQuiz}  randomQuestion={randomQuestion}/> : ''
-  )
+            setShuffledQuestions(shuffledQuestion);
+        }
+        
+    }, [selectedQuiz]);
+
+    console.log('intrebarile amestecate',shuffledQuestions);
+
+    return (
+        shuffledQuestions.length>0 ? <Test selectedQuiz={selectedQuiz} shuffledQuestions={shuffledQuestions}/> : ''
+    )
 }
 
 export default QuizData

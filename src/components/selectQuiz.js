@@ -7,16 +7,14 @@ import model from '../media/model.png';
 
 
 
+
+
 const Home = () => {
   
   const [quiz, setQuiz] = useState(null);
   const [start, setStart] = useState(false);
   const [select,setSelect]=useState();
-  const [activeButton, setActiveButton] = useState(null);
-  const [showElement, setShowElement] = useState(true);
-
   
-
   const selectQuizButtons = [
     { id: '1', label: 'JavaScript', quiz:'html', status:'Completed'},
     { id: '2', label: 'HTML', quiz:'html', status:'Uncompleted'},
@@ -26,8 +24,6 @@ const Home = () => {
     { id: '6', label: 'Data structures' , quiz:'css', status:'Completed'},
     { id: '7', label: 'Algorithms' , quiz:'javascript', status:'Uncompleted'},
   ];
-
- 
 
   const SelectQuiz = () => {
     return (
@@ -94,20 +90,15 @@ const Home = () => {
     </div>
  
     );
-  };
-
-
-
-
+  }; 
+ 
   console.log('quiz:', quiz)
   
   return (
     <>
-   
-    
 
     <div>
-    {start ? <QuizData quiz={quiz} /> : <SelectQuiz/>}
+    {start ? <QuizData quiz={quiz} /> : <SelectQuiz/>} 
     </div>
 
     </>
