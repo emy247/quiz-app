@@ -269,7 +269,7 @@ body{
         margin-top:5rem;       
      }
      
-     @keyframes rotate-buttons {
+     @keyframes expand-buttons {
         0% { width:22rem; }
         100% { width:90%; }       
       }
