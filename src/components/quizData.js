@@ -11,7 +11,7 @@ const QuizData = ({quiz}) => {
     
     useEffect(()=>{
     async function fetchData() {
-      const response = await fetch(`http://localhost:5000/${quiz}`);
+      const response = await fetch(`https://nova-coral-wavelength.glitch.me/${quiz}`);
       const data = await response.json(); 
       setSelectedQuiz(data);
     };
