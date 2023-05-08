@@ -16,12 +16,12 @@ const Home = () => {
   const [select,setSelect]=useState();
   
   const selectQuizButtons = [
-    { id: '1', label: 'JavaScript', quiz:'html', status:'Completed'},
+    { id: '1', label: 'JavaScript', quiz:'html', status:'Uncompleted'},
     { id: '2', label: 'HTML', quiz:'html', status:'Uncompleted'},
     { id: '3', label: 'CSS' , quiz:'html', status:'Uncompleted'},
-    { id: '4', label: 'React' , quiz:'css', status:'Completed'},
+    { id: '4', label: 'React' , quiz:'css', status:'Uncompleted'},
     { id: '5', label: 'Node.js' , quiz:'css', status:'Uncompleted'},
-    { id: '6', label: 'Data structures' , quiz:'css', status:'Completed'},
+    { id: '6', label: 'Data structures' , quiz:'css', status:'Uncompleted'},
     { id: '7', label: 'Algorithms' , quiz:'javascript', status:'Uncompleted'},
   ];
 

@@ -22,8 +22,28 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
   let correctList=[];
   let score=0;
   
+
   useEffect(() => {
-    
+    function handleScroll() {
+       const scrollPosition = window.scrollY;
+       
+       if (scrollPosition > 0) { 
+          window.scrollY=0;
+       }
+         else
+         window.scrollY=0;
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+       window.removeEventListener('scroll', handleScroll);
+    };
+ }, []);
+
+
+
+
+  useEffect(() => {  
     setQuestion([shuffledQuestions[number]])
    }, [number, shuffledQuestions]);
 
