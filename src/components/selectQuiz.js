@@ -15,16 +15,30 @@ const Home = () => {
   const [start, setStart] = useState(false);
   const [select,setSelect]=useState();
   
-  const selectQuizButtons = [
+  
+
+  let selectQuizButtons = [
     { id: '1', label: 'JavaScript', quiz:'html', status:'Uncompleted'},
-    { id: '2', label: 'HTML', quiz:'html', status:'Uncompleted'},
-    { id: '3', label: 'CSS' , quiz:'html', status:'Uncompleted'},
-    { id: '4', label: 'React' , quiz:'css', status:'Uncompleted'},
-    { id: '5', label: 'Node.js' , quiz:'css', status:'Uncompleted'},
-    { id: '6', label: 'Data structures' , quiz:'css', status:'Uncompleted'},
-    { id: '7', label: 'Algorithms' , quiz:'javascript', status:'Uncompleted'},
+    { id: '2', label: 'HTML', quiz:'css', status:'Uncompleted'},
+    { id: '3', label: 'CSS' , quiz:'javascript', status:'Uncompleted'},
+    { id: '4', label: 'React' , quiz:'react', status:'Uncompleted'},
+    { id: '5', label: 'Node.js' , quiz:'node', status:'Uncompleted'},
+    { id: '6', label: 'Data structures' , quiz:'data', status:'Uncompleted'},
+    { id: '7', label: 'Algorithms' , quiz:'algorithms', status:'Uncompleted'},
   ];
 
+  const savedState = localStorage.getItem('selectQuizButtons');
+
+
+  if (savedState) {
+  selectQuizButtons = JSON.parse(savedState);
+}
+  const handleComplete=(id)=>{
+    selectQuizButtons[id-1].status = 'Completed';
+    localStorage.setItem('selectQuizButtons', JSON.stringify(selectQuizButtons));
+    console.log( selectQuizButtons[id-1].status);
+  }
+   
   const SelectQuiz = () => {
     return (
 
@@ -53,6 +67,7 @@ const Home = () => {
                     <div className="select-a-quiz">Create your own</div>
                 </div>
         </div>
+        
 
            
         {select==='active'?
@@ -71,7 +86,7 @@ const Home = () => {
                       {button.label}
                       <div  
                         className={`quiz-status ${button.status==='Uncompleted'?'uncompleted':'completed'}`} 
-                        onClick={() => (setQuiz(button.quiz),setStart(true))}>                                         
+                        onClick={() => (setQuiz(button.quiz),setStart(true), handleComplete(button.id))}>                                         
                       {button.status}             
                      </div>                   
                   </button>
