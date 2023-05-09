@@ -6,16 +6,12 @@ import quizify from '../media/quizify.png';
 import model from '../media/model.png';
 
 
-
-
-
 const Home = () => {
   
   const [quiz, setQuiz] = useState(null);
   const [start, setStart] = useState(false);
   const [select,setSelect]=useState();
-  
-  
+
 
   let selectQuizButtons = [
     { id: '1', label: 'JavaScript', quiz:'html', status:'Uncompleted'},
@@ -28,7 +24,6 @@ const Home = () => {
   ];
 
   const savedState = localStorage.getItem('selectQuizButtons');
-
 
   if (savedState) {
   selectQuizButtons = JSON.parse(savedState);

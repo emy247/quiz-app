@@ -120,7 +120,7 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
         <div className="question">{item.question}</div>
         <div className="answers">
           {item.answers.map((answer,index)=>(
-          <div className={`answer ${userAnswer===answer || answers[number]===answer  ?'active':''}`} key={index} onClick={()=>handleNewAnswers(answer)}>
+          <div className={`answer ${ answers[number]===answer  ?'active':''}`} key={index} onClick={()=>handleNewAnswers(answer)}>
           {answer}     
           </div>
            ))       
@@ -137,8 +137,7 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
 
   const HandleCheckList=(answer, answers,itemCorrect)=>{
     
-    if(answer===itemCorrect)     //  Daca answer(raspunsul pe care il randam in acel moment) este egal cu raspunsul corect din intrebare=>verde
-                                    //===>face toate raspunsurile corecte verzi
+    if(answer===itemCorrect)     
     return 'active';
 
     if(answers.includes(answer) && answers.indexOf(answer)===number)    //daca answers (=array-ul cu toate raspunsurile alese de user) contine answer(raspunsul randat in acel moment)===>rosu indiferent daca este corect sau nu
