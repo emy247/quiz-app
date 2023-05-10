@@ -1,8 +1,8 @@
-### `Quizify`
+## `Quizify`
 
 ## <a href="https://quizify-app.vercel.app/"> Live Demo Here!</a>
 
-## `Description`
+### `Description`
 
 Quizify is a full-stack responsive application created with React.js, Node.js and MongoDB. 
 The purpose of the application is to provide users with a platform to test their knowledge by taking quick quizzes.
@@ -10,9 +10,9 @@ The purpose of the application is to provide users with a platform to test their
 
 ## Project screenshots
 
-![quiz_SS](https://github.com/emy247/quiz-app/assets/82291397/edd7622c-0afe-4825-b672-81ae0649a718)
-![quiz_SS2](https://github.com/emy247/quiz-app/assets/82291397/21dc9869-cd38-4c84-a977-bda35e14c2cc)
-![quiz_SS3](https://github.com/emy247/quiz-app/assets/82291397/c57a454f-e500-4e92-8aee-12f7ed5b9d07)
+![localhost_3000_ (13)](https://github.com/emy247/quiz-app/assets/82291397/2f53f5ea-baa4-46f0-aec7-a626c0155b89)
+![localhost_3000_ (12)](https://github.com/emy247/quiz-app/assets/82291397/4b02980f-65a1-4517-ad03-ef774879d34e)
+![localhost_3000_ (14)](https://github.com/emy247/quiz-app/assets/82291397/120d9414-4b2e-4f3a-b320-b23f0003382c)
 
 ## Setup
 
