@@ -222,11 +222,11 @@ body{
     width:50%;
     height:auto;
     margin:0 auto; 
-    padding-left:4rem; 
-    margin-top:-6%;
+    margin-right:7rem;
+    margin-top:-12%;
 }
 
-@media (max-width:1250px){
+@media (max-width:1350px){
     body{
         height:151vh;
     }
@@ -291,7 +291,7 @@ body{
 
 
 
-@media (max-width:738px){   
+@media (max-width:900px){   
     .select-section{
         gap:0.5rem;
         width:90%;
@@ -330,11 +330,12 @@ body{
     
 }
 
-@media (max-width:550px){
+@media (max-width:700px){
     .begin-model{
         width:90%;
-        margin-left:-2rem;
-        margin-top:0%;
+        margin-right:0;
+        
+        margin-top:6%;
     }
 
     .message{
