@@ -10,7 +10,7 @@ The purpose of the application is to provide users with a platform to test their
 
 ## Project screenshots
 
-![localhost_3000_ (13)](https://github.com/emy247/quiz-app/assets/82291397/2f53f5ea-baa4-46f0-aec7-a626c0155b89)
+![localhost_3000_ (15)](https://github.com/emy247/quiz-app/assets/82291397/9326c48e-c579-4bd0-8489-a25a099fe692)
 ![localhost_3000_ (12)](https://github.com/emy247/quiz-app/assets/82291397/4b02980f-65a1-4517-ad03-ef774879d34e)
 ![localhost_3000_ (14)](https://github.com/emy247/quiz-app/assets/82291397/aebe3356-6230-4e61-a99a-921c65623128)
 

@@ -51,7 +51,7 @@ const QuizData = ({quiz}) => {
     console.log('intrebarile amestecate',shuffledQuestions);
 
     return (
-        shuffledQuestions.length>0 ? <Test selectedQuiz={selectedQuiz} shuffledQuestions={shuffledQuestions}/> : ''
+        shuffledQuestions.length>0 ? <Test selectedQuiz={selectedQuiz} shuffledQuestions={shuffledQuestions} quiz={quiz}/> : ''
     )
 }
 

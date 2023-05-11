@@ -4,6 +4,7 @@ import './test.css';
 import final_message from '../media/final_message.png';
 import begin_model from '../media/begin_model.png';
 import './selectQuiz.css';
+import selectButtons from './selectButtons';
 
 
 const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
@@ -21,8 +22,14 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
                                                        //state-ul se schimba la finalul testului 
   let correctList=[];
   let score=0;
-  
 
+  let selectUpdatedButtons=selectButtons;
+  const savedState = localStorage.getItem('selectUpdatedButtons');
+  if (savedState) {
+  selectUpdatedButtons = JSON.parse(savedState);
+}
+  const index=selectUpdatedButtons.findIndex(name=>name.quiz===quiz) //cautare indexul testului ales din lista cu butoane pentru updatarea acestuia in local storage
+  
   useEffect(() => {
     function handleScroll() {
        const scrollPosition = window.scrollY;
@@ -39,8 +46,6 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
        window.removeEventListener('scroll', handleScroll);
     };
  }, []);
-
-
 
 
   useEffect(() => {  
@@ -81,23 +86,21 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
     {
       setNumber(number+1) ; 
     }
+
     if(number===shuffledQuestions.length-1)
     {
-      setFinish(true);     
+      setFinish(true);  
+        
     }      
-
   }
 
 
   const handleBack=()=>{  
-
     setNumber(number-1);    
       // acelasi lucru ca la next, doar ca revenim la indexul anterior al listei cu intrebari random
-    
   };
   
-  
-  
+
   const Next=()=>{
     if(number<selectedQuiz.length-1)
     return(<button className="next" onClick={handleNext}>Next question</button>);
@@ -110,11 +113,8 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
     return(<button className="next" onClick={handleBack}>Previous question</button>)
   }
   
-  
-
   //randare intrebari si raspunsuri in timpul testarii
-  
-  const listQuestion=question.map((item)=>(  //afisare intrebari+raspunsuri, verificare daca in lista shuffled raspunsul pe care se da click e egal cu itemul corect
+  const listQuestion=question.map((item)=>(  //afisare intrebari+raspunsuri, verificare daca raspunsul pe care se da click e egal cu itemul corect
    
    <div className="question-section" key={item.id}>
         <div className="question">{item.question}</div>
@@ -131,7 +131,6 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
 
   const HandleCorrect=()=>{
      setCorrectAnswers(true);
-     
      setFinish(false);
   }
 
@@ -140,14 +139,11 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
     if(answer===itemCorrect)     
     return 'active';
 
-    if(answers.includes(answer) && answers.indexOf(answer)===number)    //daca answers (=array-ul cu toate raspunsurile alese de user) contine answer(raspunsul randat in acel moment)===>rosu indiferent daca este corect sau nu
-                                    //daca ar fi fost corect ar fi ramas verde          
+    if(answers.includes(answer) && answers.indexOf(answer)===number)             
     return 'active-red';
-    
     }
   
   //randare intrebari si raspunsurile corecte+alese
-
   const listCorrect=question.map((item)=>(  
     
       <div className="question-section" key={item.id}>
@@ -159,8 +155,7 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
             </div>
             ))       
             }     
-        </div>
-        
+        </div>    
       </div>)) 
   
   
@@ -173,18 +168,15 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
         during an interview. The more you practice and refine your skills and knowledge, 
         the more confident you will feel when it's time for the actual interview.</span>
         {finish===true?<CorrectAnswers/>:''}
-        <span className="social">
-        
+        <span className="social">   
         Share your results
             <a href="#" className="fa fa-facebook"></a>
             <a href="#" className="fa fa-instagram"></a>
             <a href="#" className="fa fa-twitter"></a>
-            
         </span> 
       </div>
       <img className="final-image" alt="" src={final_message}></img>
     </div>)
-
   }
   
   const CorrectAnswers=()=>{
@@ -192,51 +184,40 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
   }
 
      
-  for(let i=0;i<shuffledQuestions.length;i++)     // cand testul e ales (correct!=undefined), putem face o noua lista cu raspunsurile corecte 
+  for(let i=0;i<shuffledQuestions.length;i++)     
     {
-    correctList.push(shuffledQuestions[i].correct); // In ordinea in care au picat intrebarile, folosindu-ne de array-ul cu cele 10 numere random si iterand prin aceasta
-                                                              //extragem .correct, raspunsul corect aferent intrebarii cu numarul picat la randomQuestion
+    correctList.push(shuffledQuestions[i].correct); //se extrage .correct, raspunsul corect aferent intrebarii                                              
     }
   
   if(finish)
-  {
+  { 
+    
     for(let i=0;i<shuffledQuestions.length;i++)
     {
       if(correctList[i]===answers[i])       // comparam lista cu raspunsurile corecte cu cea cu raspunsurile alese
       score+=1;
     }
-  }
-  
-  console.log('Lista corecte',correctList)
-      console.log('user answers', answers)
-      console.log('number',number);
-   
 
+    selectUpdatedButtons[index].status = `Completed: ${score}/${shuffledQuestions.length}`; 
+    localStorage.setItem('selectUpdatedButtons', JSON.stringify(selectUpdatedButtons));       //updatare butoane in local storage 
+    console.log( selectUpdatedButtons[index].status, score); 
+    
+  }
+
+  
   return (  
     <div className="test-section"> 
       <div className="header">
        {!finish&&begin?<div className="question-number">Question <span className="number">{number+1}</span>/{shuffledQuestions.length}</div>:'' }
-
        <button className={`button-quiz home ${number!==0?'in-quiz':''}`} onClick={handleRefresh}>Home</button></div>
-       { !begin &&number===0 ? <Start_selected_quiz/>:''}
-       
+       { !begin &&number===0 ? <Start_selected_quiz/>:''}      
        <div className="next-back">
           { !finish &&begin?<Next/>:''}   
           { !finish &&begin?<Back/>:''}
        </div>
-
-       { !finish&& !correctAnswers &&begin ? listQuestion:''} 
-       
-       { finish ? <FinalMessage/>:''}  
-         
-       
-       { !finish &&correctAnswers ? listCorrect:''}  
-
-       
-
-       
-           
-       
+       { !finish&& !correctAnswers &&begin ? listQuestion:''}     
+       { finish ? <FinalMessage/>:''}              
+       { !finish &&correctAnswers ? listCorrect:''}      
     </div>
   )
 }

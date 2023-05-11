@@ -4,6 +4,7 @@ import QuizData from './quizData';
 import './selectQuiz.css';
 import quizify from '../media/quizify.png';
 import model from '../media/model.png';
+import selectButtons from './selectButtons';
 
 
 const Home = () => {
@@ -12,28 +13,14 @@ const Home = () => {
   const [start, setStart] = useState(false);
   const [select,setSelect]=useState();
 
+  let selectQuizButtons=selectButtons;
 
-  let selectQuizButtons = [
-    { id: '1', label: 'HTML', quiz:'html', status:'Uncompleted'},
-    { id: '2', label: 'CSS', quiz:'css', status:'Uncompleted'},
-    { id: '3', label: 'JavaScript' , quiz:'javascript', status:'Uncompleted'},
-    { id: '4', label: 'React.js' , quiz:'react', status:'Uncompleted'},
-    { id: '5', label: 'Node.js' , quiz:'node', status:'Uncompleted'},
-    { id: '6', label: 'Data structures' , quiz:'data', status:'Uncompleted'},
-    { id: '7', label: 'Algorithms' , quiz:'algorithms', status:'Uncompleted'},
-  ];
-
-  const savedState = localStorage.getItem('selectQuizButtons');
-
+  const savedState = localStorage.getItem('selectUpdatedButtons');
+  
   if (savedState) {
   selectQuizButtons = JSON.parse(savedState);
 }
-  const handleComplete=(id)=>{
-    selectQuizButtons[id-1].status = 'Completed';
-    localStorage.setItem('selectQuizButtons', JSON.stringify(selectQuizButtons));
-    console.log( selectQuizButtons[id-1].status);
-  }
-   
+
   const SelectQuiz = () => {
     return (
 
@@ -81,7 +68,7 @@ const Home = () => {
                       {button.label}
                       <div  
                         className={`quiz-status ${button.status==='Uncompleted'?'uncompleted':'completed'}`} 
-                        onClick={() => (setQuiz(button.quiz),setStart(true), handleComplete(button.id))}>                                         
+                        onClick={() => (setQuiz(button.quiz),setStart(true))}>                                         
                       {button.status}             
                      </div>                   
                   </button>
