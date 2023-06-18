@@ -1,9 +1,9 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import './test.css';
+import '../App.css';
 import final_message from '../media/final_message.png';
 import begin_model from '../media/begin_model.png';
-import './selectQuiz.css';
 import selectButtons from './selectButtons';
 
 
@@ -28,6 +28,8 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
   if (savedState) {
   selectUpdatedButtons = JSON.parse(savedState);
 }
+
+
   const index=selectUpdatedButtons.findIndex(name=>name.quiz===quiz) //cautare indexul testului ales din lista cu butoane pentru updatarea acestuia in local storage
   
   useEffect(() => {
@@ -64,7 +66,7 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
       <div className='quiz-description'>Good luck and enjoy the quiz!</div>
       
       <button className="button-quiz begin" onClick={()=>(setBegin(true))}>Begin quiz</button>
-      <img className="begin-model" alt="" src={begin_model}></img>
+      <img className="begin-model" loading="lazy" alt="" src={begin_model}></img>
       
       </>)
   }
@@ -175,7 +177,7 @@ const Test = ({selectedQuiz, shuffledQuestions, quiz}) => {
             <a href="#" className="fa fa-twitter"></a>
         </span> 
       </div>
-      <img className="final-image" alt="" src={final_message}></img>
+      <img className="final-image" loading="lazy" alt="" src={final_message}></img>
     </div>)
   }
   

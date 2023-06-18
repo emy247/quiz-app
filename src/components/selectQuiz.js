@@ -1,105 +1,38 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import QuizData from './quizData';
-import './selectQuiz.css';
-import quizify from '../media/quizify.png';
-import model from '../media/model.png';
+import React from 'react'
 import selectButtons from './selectButtons';
+import '../App.css';
 
+const SelectQuiz = ( {setStart, setQuiz, setSelect}) => {
 
-const Home = () => {
+let selectQuizButtons=selectButtons;
+const savedState = localStorage.getItem('selectUpdatedButtons');
   
-  const [quiz, setQuiz] = useState(null);
-  const [start, setStart] = useState(false);
-  const [select,setSelect]=useState();
-
-  let selectQuizButtons=selectButtons;
-
-  const savedState = localStorage.getItem('selectUpdatedButtons');
-  
-  if (savedState) {
+if (savedState) {
   selectQuizButtons = JSON.parse(savedState);
-}
+  }
 
-  const SelectQuiz = () => {
-    return (
-
-    <div className="select-section">
-
-        <div className="blob-background"/>
-
-        <div className="left-content"> 
-      
-                <img src={quizify} className="title"></img>
-                <span className="description1">Easy online quiz maker: beautiful quizzes in minutes.
-                </span>
-                
-                <div className="description2">Our quiz maker provides a simple and intuitive interface 
-                    that allows you to quickly create quizzes. 
-                    Whether you need to create quizzes for education, training, marketing, 
-                    or entertainment, our quiz maker has got you covered.        
-                </div>
-                <div className="description3">
-                    You can also enhance your knowledge with our engaging quizzes, spanning a broad range of subjects.     
-                </div>
-
-                <div className="main-buttons">
-                    <div className="select-a-quiz" onClick={()=>setSelect('active')}>Select quiz</div>
-                    <span>or</span>
-                    <div className="select-a-quiz">Create your own</div>
-                </div>
-        </div>
-        
-
-           
-        {select==='active'?
-        
-        (<div className='right-content'>
-          
-           <div className="select-quiz-section">
-          
-              {selectQuizButtons.map(button => (
-                
+return (
+ <div className='right-content'>      
+          <div className="select-quiz-section">
+              {selectQuizButtons.map(button => ( 
                  <div className="quiz-button-status" key={button.id}>
                   <button
                     key={button.id}
-                    className={`select-quiz-button`}>
-                  
-                      {button.label}
-                      <div  
-                        className={`quiz-status ${button.status==='Uncompleted'?'uncompleted':'completed'}`} 
-                        onClick={() => (setQuiz(button.quiz),setStart(true))}>                                         
-                      {button.status}             
-                     </div>                   
+                    className={`select-quiz-button`}>               
+                      {button.label}                  
+                        <div  
+                          className={`quiz-status ${button.status==='Uncompleted'?'uncompleted':'completed'}`} 
+                          onClick={() => (setQuiz(button.quiz),setStart(true))}>                                         
+                          {button.status}             
+                        </div>                                  
                   </button>
-                </div>
-              
-              ))}
-         
-           </div>
-           
-         <div className="select-a-quiz back" onClick={()=>(setSelect(''))}>Back</div>
-        
-        </div>)  :   
-        
-        (<img className="model" src={model}></img>)}
-            
-    </div>
+                  
+                </div>      
+              ))}   
+          </div>  
+          <div className="select-a-quiz back" onClick={()=>(setSelect(''))}>Back</div>       
+    </div>)
  
-    );
-  }; 
- 
-  console.log('quiz:', quiz)
-  
-  return (
-    <>
+}
 
-    <div>
-    {start ? <QuizData quiz={quiz} /> : <SelectQuiz/>} 
-    </div>
-
-    </>
-  );
-};
-
-export default Home;
+export default SelectQuiz

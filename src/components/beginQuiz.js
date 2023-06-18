@@ -1,13 +1,10 @@
 import {useState, useEffect} from 'react';
 import Test from './test';
-
-const QuizData = ({quiz}) => {
+import './loader.css';
+const BeginQuiz = ({quiz}) => {
 
     const [selectedQuiz, setSelectedQuiz] = useState([]);
-  
     const [shuffledQuestions, setShuffledQuestions] = useState([]);
-    
-
     
     useEffect(()=>{
     async function fetchData() {
@@ -17,8 +14,6 @@ const QuizData = ({quiz}) => {
     };
     fetchData(); },[quiz])
     
-    
-
     useEffect(() => {
 
         if (selectedQuiz.length > 0) {
@@ -49,10 +44,12 @@ const QuizData = ({quiz}) => {
     }, [selectedQuiz]);
 
     console.log('intrebarile amestecate',shuffledQuestions);
-
-    return (
-        shuffledQuestions.length>0 ? <Test selectedQuiz={selectedQuiz} shuffledQuestions={shuffledQuestions} quiz={quiz}/> : ''
+    
+    return (   
+       shuffledQuestions.length>0 ? <Test selectedQuiz={selectedQuiz} shuffledQuestions={shuffledQuestions} quiz={quiz}/> 
+       : 
+       <span className="loader"></span>
     )
 }
 
-export default QuizData
+export default BeginQuiz

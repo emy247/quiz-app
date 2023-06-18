@@ -1,15 +1,20 @@
-import SelectQuiz from './components/selectQuiz';
+import React from 'react';
+import { useState } from 'react';
+import BeginQuiz from './components/beginQuiz';
+import HomePage from './components/HomePage';
+import './App.css';
 
-function App() {
+const App = () => {
 
-  
+  const [quiz, setQuiz] = useState(null);
+  const [start, setStart] = useState(false);
 
-  return (<>
-
-        <SelectQuiz />
-        
-        </>
+  return (
+    <>
+    {!start && <HomePage setStart={setStart} setQuiz={setQuiz} />}
+    {start && <BeginQuiz quiz={quiz}/>}
+    </>
   );
-}
+};
 
 export default App;
